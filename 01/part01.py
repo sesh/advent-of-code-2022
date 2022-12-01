@@ -1,18 +1,6 @@
 def load_calorie_counts(fn):
-    elf_totals = []
-
-    with open(fn, "r") as f:
-        elf = []
-
-        for l in f.readlines() + ["\n"]:
-            l = l.strip()
-            if not l:
-                elf_totals.append(sum(elf))
-                elf = []
-            else:
-                elf.append(int(l))
-
-    return elf_totals
+    parts = open(fn, "r").read().split("\n\n")
+    return [sum([int(l) for l in elf.split() if l.strip()]) for elf in parts]
 
 
 if __name__ == "__main__":
