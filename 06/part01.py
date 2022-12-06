@@ -17,10 +17,4 @@ if __name__ == "__main__":
     assert result == 7
 
     result = puzzle_func("input.txt", 4)
-    print("1:", result)
-
-    result = puzzle_func("test.txt", 14)
-    assert result == 19
-
-    result = puzzle_func("input.txt", 14)
-    print("2:", result)
+    print(result)
