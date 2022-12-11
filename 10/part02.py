@@ -5,7 +5,7 @@ def draw_pixel_if_appropriate(x, cycle, result):
         col -= 40
 
     if x == col or x == col - 1 or x == col + 1:
-        result[cycle-1] = "#"
+        result[cycle - 1] = "#"
 
     return result
 
