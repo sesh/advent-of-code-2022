@@ -1,6 +1,6 @@
 def print_map(map):
-    for l in map:
-        print("".join(l))
+    for i, l in enumerate(map):
+        print(i + "".join(l))
     print("---")
 
 
