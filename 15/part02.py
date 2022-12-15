@@ -33,66 +33,27 @@ def puzzle_func(fn, max_xy=10):
         max_y = max_xy
         bounds = (min_x, min_y, max_x, max_y)
 
-        print('creating map')
-        map = np.full((max_x + 1, max_y + 1), fill_value='.')
-        print('map created')
 
-        for sensor, beacon in sensors:
-            if is_in_bounds(sensor, bounds):
-                map[sensor[1]][sensor[0]] = 'S'
-            if is_in_bounds(beacon, bounds):
-                map[beacon[1]][beacon[0]] = 'B'
+        for target_row in range(min_y, max_y + 1):
+            overlaps = []
+            for sensor, beacon in sensors:
+                dist = manhattan_distance(sensor, beacon)
+                if sensor[1] < target_row and sensor[1] + dist > target_row:
+                    overlaps.append((sensor, beacon, dist))
+                if sensor[1] > target_row and sensor[1] - dist < target_row:
+                    overlaps.append((sensor, beacon, dist))
 
-        # draw_map(map, min_y)
-        # print('---')
+            line = ['.' for x in range(min_x, max_x + 1)]
+            for sensor, beacon, dist in overlaps:
+                x, y = sensor
+                x = x - min_x
 
-        for sensor_num, (sensor, beacon) in enumerate(sensors):
-            print(f"SENSOR: {sensor_num + 1}/{len(sensors)}")
-            dist = manhattan_distance(sensor, beacon)
-            x, y = sensor
+                if is_in_bounds(sensor, bounds) and sensor[1] == target_row:
+                    line[sensor[1]] == 'S'
+                if is_in_bounds(beacon, bounds) and beacon[1] == target_row:
+                    line[beacon[0]] = 'B'
 
-            if is_in_bounds((x, y), bounds) and map[y][x] == '.':
-                map[y][x] = '#'
-
-            for j in range(dist):  # up down
-                target_row = y - j
-                dist_to_target = abs(y - target_row)
-                width = dist - dist_to_target
-
-                for i in range(width):
-                    if is_in_bounds((x, target_row), bounds) and map[target_row][x] == '.':
-                        map[target_row][x] = '#'
-
-                    if is_in_bounds((x+i+1, target_row), bounds) and map[target_row][x+i+1] == '.':
-                        map[target_row][x+i+1] = '#'
-
-                    if is_in_bounds((x-i-1, target_row), bounds) and map[target_row][x-i-1] == '.':
-                        map[target_row][x-i-1] = '#'
-
-                target_row = y + j
-                dist_to_target = abs(y - target_row)
-                width = dist - dist_to_target
-
-                for i in range(width):
-                    if is_in_bounds((x, target_row), bounds) and map[target_row][x] == '.':
-                        map[target_row][x] = '#'
-
-                    if is_in_bounds((x+i+1, target_row), bounds) and map[target_row][x+i+1] == '.':
-                        map[target_row][x+i+1] = '#'
-
-                    if is_in_bounds((x-i-1, target_row), bounds) and map[target_row][x-i-1] == '.':
-                        map[target_row][x-i-1] = '#'
-
-        # draw_map(map, min_y)
-
-        # search for the result
-        for i, line in enumerate(map):
-            if '.' in line:
-                result = i + ([x for x in line].index('.') * 4000000)
-                print('RESULT:', result)
-
-        return result
-
+                print(line)
 
 if __name__ == "__main__":
     result = puzzle_func("test.txt", 20)
