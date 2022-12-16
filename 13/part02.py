@@ -1,6 +1,7 @@
 from part01 import compare
 import json
 
+
 class Packet:
     def __init__(self, val):
         self.val = val

@@ -1,5 +1,6 @@
 import json
 
+
 def compare(left, right):
     if type(left) == int and type(right) == list:
         left = [left]
@@ -36,13 +37,15 @@ def compare(left, right):
 
 def find_ordered_pairs(fn):
     with open(fn) as f:
-        pairs = [[json.loads(y) for y in x.splitlines()] for x in f.read().split("\n\n")]
+        pairs = [
+            [json.loads(y) for y in x.splitlines()] for x in f.read().split("\n\n")
+        ]
 
         correctly_ordered = []
 
     for i, (left, right) in enumerate(pairs):
-            if compare(left, right):
-                correctly_ordered.append(i + 1)
+        if compare(left, right):
+            correctly_ordered.append(i + 1)
 
     return sum(correctly_ordered)
 
