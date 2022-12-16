@@ -1,6 +1,3 @@
-
-
-
 def xy_from_string(s):
     x = None
     y = None
@@ -72,7 +69,7 @@ def puzzle_func(fn, target_row=10):
             if sensor[1] > target_row and sensor[1] - dist < target_row:
                 overlaps.append((sensor, beacon, dist))
 
-        line = ['.' for x in range(min_x, max_x + 1)]
+        line = ["." for x in range(min_x, max_x + 1)]
         max_left = 0
 
         for sensor, beacon, dist in overlaps:
@@ -80,28 +77,28 @@ def puzzle_func(fn, target_row=10):
             x = x - min_x
 
             if beacon[1] == target_row:
-                line[beacon[0]] = 'B'
+                line[beacon[0]] = "B"
 
             dist_to_target = abs(y - target_row)
             width = dist - dist_to_target
 
-            if line[x] != 'B':
-                line[x] = '#'
+            if line[x] != "B":
+                line[x] = "#"
 
             for i in range(width):
                 try:
-                    if line[x+i+1] != 'B':
-                        line[x+i+1] = '#'
+                    if line[x + i + 1] != "B":
+                        line[x + i + 1] = "#"
                 except:
-                    line.append('#')
+                    line.append("#")
 
-                if x-i-1 < 0 and x-i-1 < max_left:
-                    max_left = x-i-1
+                if x - i - 1 < 0 and x - i - 1 < max_left:
+                    max_left = x - i - 1
                 else:
-                    if line[x-i-1] != 'B':
-                        line[x-i-1] = '#'
+                    if line[x - i - 1] != "B":
+                        line[x - i - 1] = "#"
 
-        return line.count('#') + abs(max_left)
+        return line.count("#") + abs(max_left)
 
 
 if __name__ == "__main__":
